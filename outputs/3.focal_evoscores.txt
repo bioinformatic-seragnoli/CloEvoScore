@@ -1,0 +1,4 @@
+pt_name	genes	Nscore	Pscore
+PAZ_003	TP53, WRAP53	0.5	0.25
+PAZ_004	NOTCH2	0	0.5
+PAZ_005	FNTB, CHURC1-FNTB, MAX	1.5	0
