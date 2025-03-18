@@ -91,8 +91,10 @@ This file contains a curated list of genes that are particularly relevant to the
 
 ## Running CloevoScore with Docker 🐳
 
-You can run CloevoScore using Docker with the following command:
-
+You can run CloevoScore using Docker with the following commands:
+```sh
+docker pull magaiaa/cloevoscore
+```
 ```sh
 docker run --rm -v $(pwd)/outputs:/cloevoscore/outputs -it cloevoscore \
 --genes /cloevoscore/data/example/gene_table.txt \
@@ -108,7 +110,7 @@ This command will:
 ---
 
 ## License
-This project is open-source and available under the [MIT License](LICENSE).
+This project is open-source and available under the [GPLv3](LICENSE).
 
 ---
 
