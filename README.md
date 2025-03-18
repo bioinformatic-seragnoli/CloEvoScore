@@ -10,7 +10,7 @@ CloevoScore is an interactive, open-source tool for analyzing the evolutionary t
 
 This repository includes:
 
-- The **Shiny app** code for interactive analysis.
+- The [**Shiny app**](https://gmazz.shinyapps.io/CloEvoScore/) code for interactive analysis.
 - The **pipeline** with all functions necessary for large-scale genomic evolution studies.
 - Example **datasets** to help users get started.
 
