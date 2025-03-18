@@ -1,5 +1,0 @@
-pt_name	NEG_SCORE	POS_SCORE	N_clusters
-PAZ_001	1	1.25	9
-PAZ_003	0	2.5	1
-PAZ_004	6.5	1.75	8
-PAZ_005	5	0	4

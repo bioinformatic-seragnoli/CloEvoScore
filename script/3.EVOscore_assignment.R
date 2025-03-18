@@ -10,21 +10,21 @@ get_state <- function(value, state_thresholds) {
 }
 
 # Assign  labels to data
-assign_labels <- function(pts_clusters, state_thresholds) {
+assign_labels <- function(pt_clusters, state_thresholds) {
   # Check if the input data has rows
-  if (nrow(pts_clusters) == 0) {
+  if (nrow(pt_clusters) == 0) {
     cat("Error: There are no clusters for the patient.\n")
     return(tibble(pt_name = character(), diagnosis_label = character(), relapse_label = character()))
   }
   
   # Initialize variables
-  pts <- unique(pts_clusters$pt_name)
+  pts <- unique(pt_clusters$pt_name)
   all_results <- list()
   
   # Iterate over each patient
   for (pt in pts) {
     message("Processing patient: ", pt)
-    patient_data <- pts_clusters %>% filter(pt_name == pt)
+    patient_data <- pt_clusters %>% filter(pt_name == pt)
     
     # Handle cases where there are no valid clusters for the patient
     if (nrow(patient_data) == 0) {

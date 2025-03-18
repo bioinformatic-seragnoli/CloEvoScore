@@ -1,5 +1,0 @@
-pt_name	N_clusters	Nscore	Pscore	Tot_Pscore	Tot_Nscore	Trajectory
-PAZ_001	9	1	1.25	1.25	1	linear-like
-PAZ_003	1	0	3	3	0	linear-like
-PAZ_004	8	4.5	3.75	3.75	4.5	drift-like
-PAZ_005	4	1.5	0	0	1.5	drift-like

@@ -1,5 +1,0 @@
-pt_name	Purity_D	Purity_R	Ploidy_D	Ploidy_R
-PAZ_001	88	100	0	0
-PAZ_003	100	68	0	0
-PAZ_004	92	83	12	0
-PAZ_005	96	83	0	0
