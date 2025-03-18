@@ -1,0 +1,10 @@
+name: CloEvoScore
+title:
+username: gmazz
+account: gmazz
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 14093113
+bundleId: 9859142
+url: https://gmazz.shinyapps.io/CloEvoScore/
+version: 1

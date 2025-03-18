@@ -1,0 +1,5 @@
+pt_name	Purity_D	Purity_R	Ploidy_D	Ploidy_R
+PT_001	88	100	0	0
+PT_002	100	68	0	0
+PT_003	92	83	12	0
+PT_004	85	65	4	88
