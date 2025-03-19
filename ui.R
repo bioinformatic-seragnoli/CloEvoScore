@@ -1,5 +1,6 @@
 source('packages.R')
 ui <- shinydashboard::dashboardPage(
+    title="CloEvoScore",
   dashboardHeader(
     title = tags$div(
       tags$img(src = "logo2_1.png", height = "45px"),
@@ -16,6 +17,7 @@ ui <- shinydashboard::dashboardPage(
     ),
     titleWidth = 250
   ),
+  
   
   dashboardSidebar(
     disable = TRUE
