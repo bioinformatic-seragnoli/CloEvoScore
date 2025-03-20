@@ -95,17 +95,27 @@ You can run CloevoScore using Docker with the following commands:
 ```sh
 docker pull magaiaa/cloevoscore
 ```
+with test files:
 ```sh
-docker run --rm -v $(pwd)/outputs:/cloevoscore/outputs -it cloevoscore \
+docker run --rm -v $(pwd)/outputs:/cloevoscore/outputs -it magaiaa/cloevoscore \
 --genes /cloevoscore/data/example/gene_table.txt \
 --pp /cloevoscore/data/example/test_pp.txt \
 --rel /cloevoscore/data/focal_loci_hg19.txt
 ```
+with your files:
+```sh
+docker run --rm -v $(pwd):/cloevoscore/tmp -v $(pwd)/outputs/:/cloevoscore/outputs/ -it cloevoscore\
+--genes /cloevoscore/tmp/user_genes.txt \
+--pp /cloevoscore/tmp/user_ploidy_purity.tsv \
+--rel /cloevoscore/tmp/user_disease-rel-genes.txt 
+```
 
 This command will:
 - Mount the `outputs` directory to store results.
-- Run the analysis using example input files.
+- Run the analysis using test files or user's files
 - Compute evolutionary scores and generate results in the specified output directory.
+
+The analysis could also be performed without correcting for purity and ploidy and/or including disease-related genes.
 
 ---
 
