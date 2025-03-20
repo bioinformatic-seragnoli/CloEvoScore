@@ -61,11 +61,15 @@ message("External scripts loaded successfully.")
 
 
 # === Verify Input Files ======================================
-if (!file.exists(opt$genes)) stop("Error: Gene copy number file does not exist.")
-if (!file.exists(opt$pp)) stop("Error: Purity and ploidy file does not exist.")
-if (!file.exists(opt$rel)) stop("Error: Disease-related genes file does not exist.")
-message("All input files verified.")
-
+if (is.null(opt$genes) || !file.exists(opt$genes)) stop("Error: Gene copy number file does not exist.")
+if (!is.null(opt$pp) && !file.exists(opt$pp)) {
+  message("Warning: Purity and ploidy file not provided. Analysis will proceed without it.")
+  opt$pp <- NULL
+}
+if (!is.null(opt$rel) && !file.exists(opt$rel)) {
+  message("Warning: Disease-related genes file not provided. Analysis will proceed without it.")
+  opt$rel <- NULL
+}
 # === Load Input Data ========================================
 message("Loading input data...")
 data <- load_data(gene_tb = opt$genes, pp_tb = opt$pp, rel_genes = opt$rel)
