@@ -22,7 +22,7 @@ server <- function(input, output, session) {
           </ul>
           
           <p>For more details on the pipeline, please refer to the reference paper: 
-          <a href='https://i.imgflip.com/qz3zz.jpg' target='_blank'>Preprint available here</a>.</p>
+          <a href='https://i.pinimg.com/originals/88/f5/aa/88f5aac99900cc1d075be33a06285db6.jpg' target='_blank'>Preprint available here</a>.</p>
           
           <p>If you need any help with input files, please click the <strong>?</strong> icon in the header.</p>
           
@@ -58,7 +58,9 @@ server <- function(input, output, session) {
         tags$li(
           tags$b("Ploidy and Purity Table"),
           " (Optional) provides two critical parameters used to refine the interpretation of copy number values. ",
-          "Ploidy refers to which value to center the normality region of the copy number profile, while purity indicates the proportion of cancer cells within a given sample compared to normal cells. Correcting the raw copy number values using ploidy and purity ensures a more accurate reflection of true genetic alterations.",
+          "Ploidy is the correction factor multiplied by 100 to be applied to the baseline region of the copy number profile. It can also be achieved with another of our tools, ",
+          tags$a(href = "https://github.com/bioinformatic-seragnoli/BOBaFIT", target = "_blank", "BOBaFIT"),
+          ". Purity indicates the percetage of cancer cells within a given sample compared to normal cells.",
           tags$ul(
             tags$li(tags$b("pt_name:"), " Patient’s code (must match the Gene Call Table)."),
             tags$li(tags$b("Ploidy_D"), " and ", tags$b("Ploidy_R:"), " Ploidy values for each time point."),
@@ -71,8 +73,8 @@ server <- function(input, output, session) {
           tags$b("GISTIC2.0"),
           ". In the analysis, if these genes are not associated with any specific cluster, they will still be considered individually and contribute to the final score.",
           tags$ul(
-            tags$li(tags$b("gene_name:"), " Gene symbol."),
-            tags$li(tags$b("chr:"), " Chromosome where the gene is located."),
+            tags$li(tags$b("gene_names:"), " Gene symbol."),
+            tags$li(tags$b("chromosome:"), " Chromosome where the gene is located."),
             tags$li(tags$b("start:"), " Start position of the gene."),
             tags$li(tags$b("end:"), " End position of the gene."),
             tags$li(tags$b("CNA:"), " Copy number alteration detected by GISTIC (e.g., 'A' for Amplification, 'D' for Deletion).")
