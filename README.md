@@ -24,7 +24,7 @@ With this tool, you can:
 The **Shiny app** is ideal for exploratory analysis of small datasets, while the **pipeline** is recommended for comprehensive studies involving larger cohorts.
 
 For more details on the pipeline, please refer to the reference paper:  
-[Preprint available here](https://i.imgflip.com/qz3zz.jpg).
+[Preprint available here](https://i.pinimg.com/originals/88/f5/aa/88f5aac99900cc1d075be33a06285db6.jpg).
 
 **IMPORTANT:** This example uses genomic profiles of 4 multiple myeloma samples created solely for demonstrating the online version of this tool. 🧬
 
@@ -52,8 +52,8 @@ This file contains detailed information on the copy number values of individual 
 
 ### Ploidy and Purity Table (Optional)
 This file provides two critical parameters used to refine the interpretation of copy number values:
-- **Ploidy** refers to which value to center the normality region of the copy number profile.
-- **Purity** indicates the proportion of cancer cells within a given sample compared to normal cells.
+- **Ploidy** is the correction factor multiplied by 100 to be applied to the baseline region of the copy number profile. It can also be achieved with another of our tools, [BOBaFIT](https://github.com/bioinformatic-seragnoli/BOBaFIT).
+- **Purity** indicates the percetage of cancer cells within a given sample compared to normal cells.
 
 Correcting the raw copy number values using ploidy and purity ensures a more accurate reflection of true genetic alterations.
 
@@ -65,8 +65,8 @@ Correcting the raw copy number values using ploidy and purity ensures a more acc
 #### Example:
 | pt_name  | Ploidy_D | Ploidy_R | Purity_D | Purity_R |
 |----------|---------|---------|---------|---------|
-| PT_001   | 2.5     | 2.3     | 0.80    | 0.75    |
-| PT_002   | 3.0     | 2.8     | 0.85    | 0.78    |
+| PT_001   | 50     | 4     | 80    | 75    |
+| PT_002   | 0     | 10   | 85    | 78    |
 
 ---
 
@@ -74,14 +74,14 @@ Correcting the raw copy number values using ploidy and purity ensures a more acc
 This file contains a curated list of genes that are particularly relevant to the disease under investigation. These genes are typically identified through computational analyses using tools such as **GISTIC2.0**. In the analysis, if these genes are not associated with any specific cluster, they will still be considered individually and contribute to the final score.
 
 #### Required columns:
-- **gene_name:** Gene symbol.
-- **chr:** Chromosome where the gene is located.
+- **gene_names:** Gene symbol.
+- **chromosome:** Chromosome where the gene is located.
 - **start:** Start position of the gene.
 - **end:** End position of the gene.
 - **CNA:** Copy number alteration detected by GISTIC (e.g., `A` for Amplification, `D` for Deletion).
 
 #### Example:
-| gene_name | chr | start  | end    | CNA |
+| gene_names | chromosome | start  | end    | CNA |
 |-----------|----|--------|--------|-----|
 | TP53      | 17 | 7565097 | 7590856 | D   |
 | MYC       | 8  | 128748315 | 128753680 | A   |
