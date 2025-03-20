@@ -104,7 +104,7 @@ docker run --rm -v $(pwd)/outputs:/cloevoscore/outputs -it magaiaa/cloevoscore \
 ```
 with your files:
 ```sh
-docker run --rm -v $(pwd):/cloevoscore/tmp -v $(pwd)/outputs/:/cloevoscore/outputs/ -it cloevoscore\
+docker run --rm -v $(pwd):/cloevoscore/tmp -v $(pwd)/outputs/:/cloevoscore/outputs/ -it magaiaa/cloevoscore\
 --genes /cloevoscore/tmp/user_genes.txt \
 --pp /cloevoscore/tmp/user_ploidy_purity.tsv \
 --rel /cloevoscore/tmp/user_disease-rel-genes.txt 
