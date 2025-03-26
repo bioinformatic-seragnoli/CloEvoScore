@@ -2,13 +2,13 @@
 # Purpose: Perform DBSCAN clustering analysis on CNV data and analyze Disease-related gene regions not in clusters.
 # === Helper Functions ===
 
-# Perform DBSCAN clustering
+# # Function to perform DBSCAN clustering on a dataframe using given eps and minPts
 perform_dbscan <- function(df, eps, min_pts) {
   try(dbscan(df, eps = eps, minPts = min_pts, borderPoints =F))
 }
 
 
-# Trajectory Plot 
+# # Function to plot the DBSCAN clustering results and optionally highlight Disease-related gene regions
 save_cluster_plot <- function(dat_pt, df_wt, cluster_centers, focal_calls_0_genes, focal_calls_0_dist_genes, index, plot_path, show_plot = T, save_plot=F) {
   suppressWarnings({
     p <- dat_pt %>%
@@ -53,18 +53,14 @@ save_cluster_plot <- function(dat_pt, df_wt, cluster_centers, focal_calls_0_gene
 
 
 
-
-# === Main Analysis ===
+# === Main DBSCAN Clustering & Focal Region Analysis Function ===
 EvoCluster <- function(df, focalGR, plot_dir, pt_name, show_plot=F, save_plot=F) { 
 
-  noise_sd <- 0.04
-  eps_pair <- 0.03
-  min_pair <- 30
-  
+  noise_sd <- 0.04  # standard deviation of noise added to points
   
   message("Processing patient: ", pt_name)
   
-
+  # Identify column indices for diagnosis and relapse
   idx_d <- match(paste0(pt_name, "_D"), names(df))
   idx_r <- match(paste0(pt_name, "_R"), names(df))
   
@@ -72,27 +68,32 @@ EvoCluster <- function(df, focalGR, plot_dir, pt_name, show_plot=F, save_plot=F)
     stop("Columns for patient ", pt_name, " not found in dataset.")
   }
 
+  # Prepare patient-specific dataframe with noise added to CN values
   dat_pt <- df %>%
     select(chromosome, start, end, gene_names, diagnosis = idx_d, relapse = idx_r) %>%
     mutate(diagnosis_noise = diagnosis + rnorm(nrow(df), mean = 0, sd = noise_sd),
            relapse_noise = relapse + rnorm(nrow(df), mean = 0, sd = noise_sd)) 
   setDT(dat_pt)
   
+  
+  # Identify data points in the "wild-type" (WT) region (CN ~ 2)
   df_wt <- dat_pt %>%
     filter(diagnosis_noise > 1.8 & diagnosis_noise < 2.2 &
              relapse_noise > 1.8 & relapse_noise < 2.2)
   setDT(df_wt)
   
+  # Filter out the WT region from clustering
   dat_pt <- dat_pt %>%
     filter(!(diagnosis_noise > 1.8 & diagnosis_noise < 2.2 &
                relapse_noise > 1.8 & relapse_noise < 2.2))
   
-
+  # Break data into blocks for DBSCAN (for performance)
   block_size <- 10000
   num_blocks <- ceiling(nrow(dat_pt) / block_size)
   
   dbs_clusters <- list()
   
+  # Run DBSCAN on each block
   for (j in seq_len(num_blocks)) {
     
     start_row <- (j - 1) * block_size + 1
@@ -100,7 +101,7 @@ EvoCluster <- function(df, focalGR, plot_dir, pt_name, show_plot=F, save_plot=F)
     
     block_data <- dat_pt[start_row:end_row, ]
     
-    dbs <- perform_dbscan(block_data %>% select(diagnosis_noise, relapse_noise), eps = 0.05, min_pts = 50)
+    dbs <- perform_dbscan(block_data %>% select(diagnosis_noise, relapse_noise), eps = 0.03, min_pts = 30)
     
     block_data$DBscan_cluster <- as.character(dbs$cluster)
     
@@ -109,9 +110,11 @@ EvoCluster <- function(df, focalGR, plot_dir, pt_name, show_plot=F, save_plot=F)
     rm(block_data, dbs)
     gc()
   }
-
+  
+  # Recombine all blocks after clustering
   dat_pt <- bind_rows(dbs_clusters)
-
+  
+  # Compute centers for each cluster
   cluster_centers <- dat_pt %>%
     filter(DBscan_cluster != "0") %>%
     group_by(DBscan_cluster) %>%
@@ -120,7 +123,7 @@ EvoCluster <- function(df, focalGR, plot_dir, pt_name, show_plot=F, save_plot=F)
               n = n(),
               .groups = "drop")
   
-
+  # Summarize number of genes per chromosome per cluster
   cluster_chromosomes <- dat_pt %>%
     group_by(DBscan_cluster, chromosome) %>%
     summarise(diagnosis_noise = mean(diagnosis_noise, na.rm = TRUE),
@@ -129,16 +132,18 @@ EvoCluster <- function(df, focalGR, plot_dir, pt_name, show_plot=F, save_plot=F)
               .groups = "drop") %>%
     mutate(pt_name = pt_name)
   
-
+  # Check for overlaps between "noise points" and known disease-related gene regions
   if (!is.null(focalGR) & nrow(dat_pt) !=0) {
     dat_ptGR <- dat_pt  %>% filter(DBscan_cluster == 0) %>% 
       makeGRangesFromDataFrame(keep.extra.columns = TRUE)
     
+    # Keep only chromosomes present in both patient data and disease-related gene set
     chroms_in_focal <- unique(seqlevels(focalGR))
     chroms_in_focal <- intersect(as.character(seqlevels(dat_ptGR)), as.character(chroms_in_focal))
     
     dat_ptGR <- keepSeqlevels(dat_ptGR, chroms_in_focal, pruning.mode = "coarse")
     
+    # Check for overlaps
     overlap_counts <- countOverlaps(focalGR, dat_ptGR)
     if (sum(overlap_counts) == 0) {
       message("No overlaps with Disease-Realted gene table in ", pt_name)
@@ -152,7 +157,7 @@ EvoCluster <- function(df, focalGR, plot_dir, pt_name, show_plot=F, save_plot=F)
       focal_calls_0 <- bind_cols(dat_data_matched %>% select(-gene_names), select(focal_data_matched, CNA, gene_names))
     }
     
-    
+    # For matched focal genes, compute distance from all cluster centers
     if (nrow(focal_calls_0) > 0) {
       df1 <- focal_calls_0 %>% select(diagnosis_noise, relapse_noise)
       df2 <- cluster_centers %>% select(diagnosis_noise, relapse_noise)
@@ -179,7 +184,7 @@ EvoCluster <- function(df, focalGR, plot_dir, pt_name, show_plot=F, save_plot=F)
     focal_calls_0_dist_genes <- character(0)
   }
   
-
+  # Plot clustering results
   p <- save_cluster_plot(
     dat_pt,
     df_wt,
@@ -196,6 +201,7 @@ EvoCluster <- function(df, focalGR, plot_dir, pt_name, show_plot=F, save_plot=F)
   
   message("Clustering complete - ", pt_name)
   
+  # Return outputs
   list(
     all_clusters = cluster_chromosomes,
     all_focals_alone = focal_calls_0_dist,
