@@ -22,7 +22,7 @@ server <- function(input, output, session) {
           </ul>
           
           <p>For more details on the pipeline, please refer to the reference paper: 
-          <a href='https://i.pinimg.com/originals/88/f5/aa/88f5aac99900cc1d075be33a06285db6.jpg' target='_blank'>Preprint available here</a>.</p>
+          <a href='' target='_blank'>Preprint available here</a>.</p>
           
           <p>If you need any help with input files, please click the <strong>?</strong> icon in the header.</p>
           
