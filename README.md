@@ -1,7 +1,11 @@
-## Welcome to CloEvoScore
-<div style="display: flex; align-items: center;">
-  <img src="www/logo2.png" alt="CloevoScore Logo" width="200">
-</div>
+# Welcome to CloEvoScore! <img src="www/logo2.png" width="200" height="200" align="right">
+
+
+
+
+
+
+
 
 CloevoScore is an interactive, open-source tool for analyzing the evolutionary trajectories of patients based on gene copy number values. It provides two complementary approaches:
 
