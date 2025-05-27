@@ -28,7 +28,7 @@ With this tool, you can:
 The **Shiny app** is ideal for exploratory analysis of small datasets, while the **pipeline** is recommended for comprehensive studies involving larger cohorts.
 
 For more details on the pipeline, please refer to the reference paper:  
-[Preprint available here](https://i.pinimg.com/originals/88/f5/aa/88f5aac99900cc1d075be33a06285db6.jpg).
+[Preprint available here]().
 
 **IMPORTANT:** This example uses genomic profiles of 4 multiple myeloma samples created solely for demonstrating the online version of this tool. 🧬
 
